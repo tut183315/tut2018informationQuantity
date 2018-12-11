@@ -59,6 +59,7 @@ public class TestCase {
             InformationEstimatorTest(myObject,"01");
             InformationEstimatorTest(myObject,"0123");
             InformationEstimatorTest(myObject,"00");
+            InformationEstimatorTest(myObject,"3210");
         }
         catch(Exception e) {
             //System.out.println("Exception occurred: STOP");
