@@ -22,23 +22,25 @@ public class Frequencer implements FrequencerInterface{
     public void setTarget(byte [] target) { myTarget = target;}
     public void setSpace(byte []space) { mySpace = space; }
     public int frequency() {
-        int targetLength = myTarget.length;
-        int spaceLength = mySpace.length;
-        int count = 0;
-        for(int start = 0; start<spaceLength; start++) { // Is it OK?
-            boolean abort = false;
-            for(int i = 0; i<targetLength; i++) {
-                if(myTarget[i] != mySpace[start+i]) { abort = true; break; }
-            }
-            if(!abort) { count++; }
-        }
-        return count;
+        if(myTarget == null) return -1;
+        return subByteFrequency(0,myTarget.length);
     }
 
-    // I know that here is a potential problem in the declaration.
-    public int subByteFrequency(int start, int length) {
-        // Not yet, but it is not currently used by anyone.
-        return -1;
+    public int subByteFrequency(int start, int end) {
+        if(myTarget == null || myTarget.length == 0) return -1;
+        if(start >= end) return -1;
+        if(mySpace == null || mySpace.length == 0) return 0;
+        int spaceLength = mySpace.length;
+        int count = 0;
+        loop:for(int spacestart = 0; spacestart < spaceLength; spacestart++) { // Is it OK?
+            for(int i = start; i<end; i++) {
+                if(myTarget[i] != mySpace[spacestart+i]) {
+                    continue loop;
+                }
+            }
+            count++;
+        }
+        return count;
     }
 
     public static void main(String[] args) {
@@ -46,12 +48,7 @@ public class Frequencer implements FrequencerInterface{
         int freq;
         try {
             System.out.println("checking my Frequencer");
-            myObject = new Frequencer();
-            myObject.setSpace("Hi Ho Hi Ho".getBytes());
-            myObject.setTarget("H".getBytes());
-            freq = myObject.frequency();
-            System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
-            if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            TestCase.FrequencerTest("Hi Ho Hi Ho","H",4);
         }
         catch(Exception e) {
             System.out.println("Exception occurred: STOP");

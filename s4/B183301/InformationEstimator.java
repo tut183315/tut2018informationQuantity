@@ -2,6 +2,8 @@ package s4.B183301; // Please modify to s4.Bnnnnnn, where nnnnnn is your student
 import java.lang.*;
 import s4.specification.*;
 
+import static s4.B183301.TestCase.InformationEstimatorTest;
+
 /* What is imported from s4.specification
 package s4.specification;
 public interface InformationEstimatorInterface{
@@ -84,22 +86,21 @@ public class InformationEstimator implements InformationEstimatorInterface{
     }
 
     public static void main(String[] args) {
-        InformationEstimator myObject;
-        double value;
-        myObject = new InformationEstimator();
-        myObject.setSpace("3210321001230123".getBytes());
-        myObject.setTarget("0".getBytes());
-        value = myObject.estimation();
-        System.out.println(">0 "+value);
-        myObject.setTarget("01".getBytes());
-        value = myObject.estimation();
-        System.out.println(">01 "+value);
-        myObject.setTarget("0123".getBytes());
-        value = myObject.estimation();
-        System.out.println(">0123 "+value);
-        myObject.setTarget("00".getBytes());
-        value = myObject.estimation();
-        System.out.println(">00 "+value);
+        try {
+            InformationEstimatorInterface myObject;
+            double value;
+            System.out.println("checking s4.B183301.InformationEstimator");
+            myObject = new s4.B183301.InformationEstimator();
+            myObject.setSpace("3210321001230123".getBytes());
+            InformationEstimatorTest(myObject,"0");
+            InformationEstimatorTest(myObject,"01");
+            InformationEstimatorTest(myObject,"0123");
+            InformationEstimatorTest(myObject,"00");
+            InformationEstimatorTest(myObject,"0012");
+        }
+        catch(Exception e) {
+            System.out.println("Exception occurred: STOP");
+        }
     }
 }
 				  
