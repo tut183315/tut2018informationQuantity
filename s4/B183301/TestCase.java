@@ -54,16 +54,29 @@ public class TestCase {
         InformationEstimatorTest(myObject,"0123");
         InformationEstimatorTest(myObject,"00");
         InformationEstimatorTest(myObject,"3210");
+        InformationEstimatorTest(myObject, null);
+        InformationEstimatorTest(myObject, "");
+        myObject.setSpace("".getBytes());
+        InformationEstimatorTest(myObject,"233");
+        myObject.setSpace(null);
+        InformationEstimatorTest(myObject,"ff");
     }
 
     static void InformationEstimatorTest(InformationEstimatorInterface myObject,String str) {
         try {
             double value;
-            myObject.setTarget(str.getBytes());
+            if(str!=null)
+                myObject.setTarget(str.getBytes());
+            else
+                myObject.setTarget(null);
             value = myObject.estimation();
             System.out.printf(">%s %s\n",str,value);
-        }catch (Exception e){
-            System.out.printf(myObject.toString() + " " + str);
+            if(str == null || str.length() == 0){
+                if(value == 0.0) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            }
+        } catch (Exception e) {
+            System.out.println(" with Error " + myObject.toString() + " " + str);
+            e.printStackTrace();
         }
     }
 
@@ -77,7 +90,7 @@ public class TestCase {
             System.out.printf("\"%s in \"%s\" appears %d times. \n",space,target,freq);
             if(expect == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         } catch (Exception e){
-            System.out.printf("Failed space: %s target: %s expect: %d ",space ,target, expect);
+            System.out.printf("Failed with Error space: %s target: %s expect: %d ",space ,target, expect);
             e.printStackTrace();
         }
     }
@@ -92,7 +105,7 @@ public class TestCase {
             System.out.printf("\"%s\" in \"%s\" appears %d times. ",space,target,freq);
             if(expect == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         } catch (Exception e){
-            System.out.printf("Failed space: %s target: %s expect: %d ",space ,target, expect);
+            System.out.printf("Failed with Error space: %s target: %s expect: %d ",space ,target, expect);
             e.printStackTrace();
         }
     }

@@ -43,6 +43,10 @@ public class InformationEstimator implements InformationEstimatorInterface{
     }
 
     public double estimation(){
+        if(myTarget == null || myTarget.length == 0)
+            return 0.0;
+        if(mySpace == null || mySpace.length == 0)
+            return Double.MAX_VALUE;
         boolean [] partition = new boolean[myTarget.length+1];
         int np;
         np = 1<<(myTarget.length-1);
@@ -82,7 +86,7 @@ public class InformationEstimator implements InformationEstimatorInterface{
             // Get the minimal value in "value"
             if(value1 < value) value = value1;
         }
-        return value;
+        return Double.isInfinite( value) ? Double.MAX_VALUE : value;
     }
 
     public static void main(String[] args) {

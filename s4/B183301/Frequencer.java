@@ -32,8 +32,9 @@ public class Frequencer implements FrequencerInterface{
         if(mySpace == null || mySpace.length == 0) return 0;
         int spaceLength = mySpace.length;
         int count = 0;
-        loop:for(int spacestart = 0; spacestart < spaceLength; spacestart++) { // Is it OK?
-            for(int i = start; i<end; i++) {
+        var spaceend = spaceLength - end + start;
+        loop:for(int spacestart = 0; spacestart < spaceend; spacestart++) {
+            for(int i = start; i < end; i++) {
                 if(myTarget[i] != mySpace[spacestart+i]) {
                     continue loop;
                 }
