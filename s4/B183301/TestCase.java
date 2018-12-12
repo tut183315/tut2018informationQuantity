@@ -34,65 +34,67 @@ public interface InformationEstimatorInterface{
 public class TestCase {
 
     public static void main(String[] args) {
-        try {
-            FrequencerInterface  myObject;
-            int freq;
-            System.out.println("checking s4.B183301.Frequencer");
-            myObject = new s4.B183301.Frequencer();
-            FrequencerTest("Hi Ho Hi Ho","H",4);
-            FrequencerTest(null,"Xx",0);
-            FrequencerTest("XXXXfefefrrehg9uewrj",null,-1);
-            FrequencerTest(null,null,-1);
-            FrequencerTest("Hi Ho Hi Ho","Hi",2);
-        }
-        catch(Exception e) {
-            System.out.println("Exception occurred: STOP");
-        }
+        int freq;
+        System.out.println("checking s4.B183301.Frequencer");
+        FrequencerTest("Hi Ho Hi Ho","H",4);
+        FrequencerTest(null,"Xx",0);
+        FrequencerTest("","fefefe",0);
+        FrequencerTest("XXXXfefefrrehg9uewrj",null,-1);
+        FrequencerTest("Xdwrjdfefedf","",-1);
+        FrequencerTest(null,null,-1);
+        FrequencerTest("Hi Ho Hi Ho","Hi",2);
 
-        try {
-            InformationEstimatorInterface myObject;
-            double value;
-            System.out.println("checking s4.B183301.InformationEstimator");
-            myObject = new s4.B183301.InformationEstimator();
-            myObject.setSpace("3210321001230123".getBytes());
-            InformationEstimatorTest(myObject,"0");
-            InformationEstimatorTest(myObject,"01");
-            InformationEstimatorTest(myObject,"0123");
-            InformationEstimatorTest(myObject,"00");
-            InformationEstimatorTest(myObject,"3210");
-        }
-        catch(Exception e) {
-            //System.out.println("Exception occurred: STOP");
-            e.printStackTrace();
-        }
-
+        InformationEstimatorInterface myObject;
+        double value;
+        System.out.println("checking s4.B183301.InformationEstimator");
+        myObject = new s4.B183301.InformationEstimator();
+        myObject.setSpace("3210321001230123".getBytes());
+        InformationEstimatorTest(myObject,"0");
+        InformationEstimatorTest(myObject,"01");
+        InformationEstimatorTest(myObject,"0123");
+        InformationEstimatorTest(myObject,"00");
+        InformationEstimatorTest(myObject,"3210");
     }
 
     static void InformationEstimatorTest(InformationEstimatorInterface myObject,String str) {
-        double value;
-        myObject.setTarget(str.getBytes());
-        value = myObject.estimation();
-        System.out.printf(">%s %s\n",str,value);
+        try {
+            double value;
+            myObject.setTarget(str.getBytes());
+            value = myObject.estimation();
+            System.out.printf(">%s %s\n",str,value);
+        }catch (Exception e){
+            System.out.printf(myObject.toString() + " " + str);
+        }
     }
 
-    static void FrequencerTest(String space,String target,int expect) {
-        var myObject = new s4.B183301.Frequencer();
-        int freq;
-        if(space!=null) myObject.setSpace(space.getBytes());
-        if(target!=null) myObject.setTarget(target.getBytes());
-        freq = myObject.frequency();
-        System.out.printf("\"%s in \"%s\" appears %d times. \n",space,target,freq);
-        if(expect == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+    static void FrequencerTest(String space, String target, int expect) {
+        try {
+            var myObject = new s4.B183301.Frequencer();
+            int freq;
+            if(space!=null) myObject.setSpace(space.getBytes());
+            if(target!=null) myObject.setTarget(target.getBytes());
+            freq = myObject.frequency();
+            System.out.printf("\"%s in \"%s\" appears %d times. \n",space,target,freq);
+            if(expect == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        } catch (Exception e){
+            System.out.printf("Failed space: %s target: %s expect: %d ",space ,target, expect);
+            e.printStackTrace();
+        }
     }
 
     static void SubFrequencerTest(String space,String target,int expect,int start,int end) {
-        int freq;
-        var myObject = new s4.B183301.Frequencer();
-        if(space!=null) myObject.setSpace(space.getBytes());
-        if(target!=null) myObject.setTarget(target.getBytes());
-        freq = myObject.subByteFrequency(start,end);
-        System.out.printf("\"%s\" in \"%s\" appears %d times. ",space,target,freq);
-        if(expect == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        try {
+            int freq;
+            var myObject = new s4.B183301.Frequencer();
+            if(space!=null) myObject.setSpace(space.getBytes());
+            if(target!=null) myObject.setTarget(target.getBytes());
+            freq = myObject.subByteFrequency(start,end);
+            System.out.printf("\"%s\" in \"%s\" appears %d times. ",space,target,freq);
+            if(expect == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        } catch (Exception e){
+            System.out.printf("Failed space: %s target: %s expect: %d ",space ,target, expect);
+            e.printStackTrace();
+        }
     }
 }	    
 	    
