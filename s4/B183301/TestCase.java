@@ -47,32 +47,30 @@ public class TestCase {
         InformationEstimatorInterface myObject;
         double value;
         System.out.println("checking s4.B183301.InformationEstimator");
-        myObject = new s4.B183301.InformationEstimator();
-        myObject.setSpace("3210321001230123".getBytes());
-        InformationEstimatorTest(myObject,"0");
-        InformationEstimatorTest(myObject,"01");
-        InformationEstimatorTest(myObject,"0123");
-        InformationEstimatorTest(myObject,"00");
-        InformationEstimatorTest(myObject,"3210");
-        InformationEstimatorTest(myObject, null);
-        InformationEstimatorTest(myObject, "");
-        myObject.setSpace("".getBytes());
-        InformationEstimatorTest(myObject,"233");
-        myObject.setSpace(null);
-        InformationEstimatorTest(myObject,"ff");
+        InformationEstimatorTest("3210321001230123","0");
+        InformationEstimatorTest("3210321001230123","01");
+        InformationEstimatorTest("3210321001230123","0123");
+        InformationEstimatorTest("3210321001230123","00");
+        InformationEstimatorTest("3210321001230123","3210");
+        InformationEstimatorTest("3210321001230123", null, 0.0);
+        InformationEstimatorTest("3210321001230123", "", 0.0);
+        InformationEstimatorTest(null, "01", Double.MAX_VALUE);
     }
-
-    static void InformationEstimatorTest(InformationEstimatorInterface myObject,String str) {
-        try {
+    static void InformationEstimatorTest(String target,String str){
+        InformationEstimatorTest(target, str, null);
+    }
+    static void InformationEstimatorTest(String target,String str,Double expected) {
+        try {        
+            var myObject = new s4.B183301.InformationEstimator();
+            if(target!=null)
+                myObject.setSpace(target.getBytes());
             double value;
             if(str!=null)
                 myObject.setTarget(str.getBytes());
-            else
-                myObject.setTarget(null);
             value = myObject.estimation();
             System.out.printf(">%s %s\n",str,value);
-            if(str == null || str.length() == 0){
-                if(value == 0.0) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            if(expected != null){
+                if(value == expected) { System.out.println("OK"); } else {System.out.println("WRONG"); }
             }
         } catch (Exception e) {
             System.out.println(" with Error " + myObject.toString() + " " + str);
