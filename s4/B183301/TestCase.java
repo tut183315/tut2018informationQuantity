@@ -1,8 +1,7 @@
 package s4.B183301; // Please modify to s4.Bnnnnnn, where nnnnnn is your student ID. 
 
-import java.lang.*;
-
 import s4.specification.*;
+import java.util.function.Supplier;
 
 /*
 interface FrequencerInterface {     // This interface provides the design for frequency counter.
@@ -60,8 +59,12 @@ public class TestCase {
             InformationEstimatorTest("3210321001230123", null, 0.0);
             InformationEstimatorTest("3210321001230123", "", 0.0);
             InformationEstimatorTest(null, "01", Double.MAX_VALUE);
+            InformationEstimatorTest("","fefe",Double.MAX_VALUE);
+            InformationEstimatorTest("g","f",Double.MAX_VALUE);
         }
     }
+
+
 
     /**
      * Testing Estimator without expected value
@@ -70,7 +73,7 @@ public class TestCase {
      * @param target Target Data
      */
     static void InformationEstimatorTest(String space, String target) {
-        InformationEstimatorTest(target, space, null);
+        InformationEstimatorTest(space, target, null);
     }
 
     /**
@@ -81,24 +84,42 @@ public class TestCase {
      * @param expected expected value for estimated value
      */
     static void InformationEstimatorTest(String space, String target, Double expected) {
-        var myObject = new s4.B183301.InformationEstimator();
+        InformationEstimatorInterfaceTest(()-> new s4.B183301.InformationEstimator(),space,target,expected);
+    }
+
+    /**
+     * Testing Estimator with expected value
+     * @param supplier Factory of InformationEstimator
+     * @param space    Space Data
+     * @param target   Target Data
+     * @param expected expected value for estimated value
+     */
+    static void InformationEstimatorInterfaceTest(Supplier<InformationEstimatorInterface> supplier, String space, String target, Double expected){
+        var myObject = supplier.get();
         try {
             if (space != null)
                 myObject.setSpace(space.getBytes());
-            double value;
             if (target != null)
                 myObject.setTarget(target.getBytes());
-            value = myObject.estimation();
-            System.out.printf(">%s %s\n", space, value);
-            if (expected != null) {
-                if (value == expected) {
-                    System.out.println("Success");
+            double value = myObject.estimation();
+            System.out.printf(">%s %s %s\n", space, target, value);
+            if(expected != null){
+                if (expected == value) {
+                    if(expected == Double.MAX_VALUE){
+                        System.out.println("Success expected: Double.MAXVALUE actual: Double.MAXVALUE\n");
+                    }else {
+                        System.out.printf("Success expected: %f actual: %f\n", expected, value);
+                    }
                 } else {
-                    System.out.println("Failed");
+                    if(expected == Double.MAX_VALUE){
+                        System.out.printf("Failed expected: Double.MAXVALUE actual: %f\n",value);
+                    }else {
+                        System.out.printf("Failed expected: %f actual: %f\n", expected, value);
+                    }
                 }
             }
         } catch (Exception e) {
-            System.out.println(" with Error " + myObject.toString() + " " + space);
+            System.out.println("Failed with Error " + myObject.toString() + " " + space);
             e.printStackTrace();
         }
     }
@@ -111,20 +132,31 @@ public class TestCase {
      * @param expected expected value for estimated value
      */
     static void FrequencerTest(String space, String target, int expected) {
+        FrequencerInterfaceTest(()->new Frequencer(),space,target,expected);
+    }
+
+    /**
+     * Testing Frequencer
+     * @param supplier Factory of FrequencerInterface
+     * @param space    Space Data
+     * @param target   Target Data
+     * @param expected expected value for estimated value
+     */
+    static void FrequencerInterfaceTest(Supplier<FrequencerInterface> supplier, String space, String target, int expected) {
         try {
-            var myObject = new s4.B183301.Frequencer();
+            var myObject = supplier.get();
             int freq;
             if (space != null) myObject.setSpace(space.getBytes());
             if (target != null) myObject.setTarget(target.getBytes());
             freq = myObject.frequency();
             System.out.printf("\"%s in \"%s\" appears %d times. \n", space, target, freq);
             if (expected == freq) {
-                System.out.println("Success");
+                System.out.printf("Success expected: %d actual; %d\n",expected,freq);
             } else {
-                System.out.println("Failed");
+                System.out.printf("Failed expected: %d actual; %d\n",expected,freq);
             }
         } catch (Exception e) {
-            System.out.printf("Failed with Error space: %s target: %s expect: %d ", space, target, expected);
+            System.out.printf("Failed with Error space: %s target: %s expect: %d \n", space, target, expected);
             e.printStackTrace();
         }
     }
@@ -132,7 +164,7 @@ public class TestCase {
     /**
      * Testing SubFrequencer
      */
-    static void SubFrequencerTest(String space, String target, int expect, int start, int end) {
+    static void SubFrequencerTest(String space, String target, int expected, int start, int end) {
         try {
             int freq;
             var myObject = new s4.B183301.Frequencer();
@@ -140,13 +172,13 @@ public class TestCase {
             if (target != null) myObject.setTarget(target.getBytes());
             freq = myObject.subByteFrequency(start, end);
             System.out.printf("\"%s\" in \"%s\" appears %d times. ", space, target, freq);
-            if (expect == freq) {
-                System.out.println("OK");
+            if (expected == freq) {
+                System.out.printf("Success expected: %d actual: %d\n",expected,freq);
             } else {
-                System.out.println("WRONG");
+                System.out.printf("Failed expected: %d actual: %d\n",expected,freq);
             }
         } catch (Exception e) {
-            System.out.printf("Failed with Error space: %s target: %s expect: %d ", space, target, expect);
+            System.out.printf("Failed with Error space: %s target: %s expect: %d \n", space, target, expected);
             e.printStackTrace();
         }
     }
