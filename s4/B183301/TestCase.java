@@ -1,7 +1,5 @@
 package s4.B183301; // Please modify to s4.Bnnnnnn, where nnnnnn is your student ID. 
 import java.lang.*;
-import java.util.ArrayList;
-
 import s4.specification.*;
 
 /*
@@ -34,34 +32,36 @@ public interface InformationEstimatorInterface{
 public class TestCase {
 
     public static void main(String[] args) {
-        int freq;
-        System.out.println("checking s4.B183301.Frequencer");
-        FrequencerTest("Hi Ho Hi Ho","H",4);
-        FrequencerTest(null,"Xx",0);
-        FrequencerTest("","fefefe",0);
-        FrequencerTest("XXXXfefefrrehg9uewrj",null,-1);
-        FrequencerTest("Xdwrjdfefedf","",-1);
-        FrequencerTest(null,null,-1);
-        FrequencerTest("Hi Ho Hi Ho","Hi",2);
-
-        InformationEstimatorInterface myObject;
-        double value;
-        System.out.println("checking s4.B183301.InformationEstimator");
-        InformationEstimatorTest("3210321001230123","0");
-        InformationEstimatorTest("3210321001230123","01");
-        InformationEstimatorTest("3210321001230123","0123");
-        InformationEstimatorTest("3210321001230123","00");
-        InformationEstimatorTest("3210321001230123","3210");
-        InformationEstimatorTest("3210321001230123", null, 0.0);
-        InformationEstimatorTest("3210321001230123", "", 0.0);
-        InformationEstimatorTest(null, "01", Double.MAX_VALUE);
+        {
+            System.out.println("checking s4.B183301.Frequencer");
+            FrequencerTest("Hi Ho Hi Ho", "H", 4);
+            FrequencerTest(null, "Xx", 0);
+            FrequencerTest("", "fefefe", 0);
+            FrequencerTest("XXXXfefefrrehg9uewrj", null, -1);
+            FrequencerTest("Xdwrjdfefedf", "", -1);
+            FrequencerTest(null, null, -1);
+            FrequencerTest("Hi Ho Hi Ho", "Hi", 2);
+        }
+        {
+            System.out.println("checking s4.B183301.InformationEstimator");
+            InformationEstimatorTest("3210321001230123","0");
+            InformationEstimatorTest("3210321001230123","01");
+            InformationEstimatorTest("3210321001230123","0123");
+            InformationEstimatorTest("3210321001230123","00");
+            InformationEstimatorTest("3210321001230123","3210");
+            InformationEstimatorTest("3210321001230123", null, 0.0);
+            InformationEstimatorTest("3210321001230123", "", 0.0);
+            InformationEstimatorTest(null, "01", Double.MAX_VALUE);
+        }
     }
+
     static void InformationEstimatorTest(String target,String str){
         InformationEstimatorTest(target, str, null);
     }
+
     static void InformationEstimatorTest(String target,String str,Double expected) {
-        try {        
-            var myObject = new s4.B183301.InformationEstimator();
+        var myObject = new s4.B183301.InformationEstimator();
+        try {
             if(target!=null)
                 myObject.setSpace(target.getBytes());
             double value;
@@ -70,7 +70,7 @@ public class TestCase {
             value = myObject.estimation();
             System.out.printf(">%s %s\n",str,value);
             if(expected != null){
-                if(value == expected) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+                if(value == expected) { System.out.println("Success"); } else {System.out.println("Failed"); }
             }
         } catch (Exception e) {
             System.out.println(" with Error " + myObject.toString() + " " + str);
@@ -86,7 +86,7 @@ public class TestCase {
             if(target!=null) myObject.setTarget(target.getBytes());
             freq = myObject.frequency();
             System.out.printf("\"%s in \"%s\" appears %d times. \n",space,target,freq);
-            if(expect == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            if(expect == freq) { System.out.println("Success"); } else {System.out.println("Failed"); }
         } catch (Exception e){
             System.out.printf("Failed with Error space: %s target: %s expect: %d ",space ,target, expect);
             e.printStackTrace();
