@@ -121,6 +121,19 @@ public class Frequencer implements FrequencerInterface {
         //
         // ****  Please write code here... ***
         //
+        while (j < end) {
+            if(mySpace.length <= i){
+                return -1;
+            }
+            var x = mySpace[suffixArray[i]];
+            var y = myTarget[j];
+            if(x == y){
+                i++;
+                j++;
+                continue;
+            }
+            return x > y ? 1 : -1;
+        }
         return 0; // This line should be modified.
     }
 
@@ -132,7 +145,19 @@ public class Frequencer implements FrequencerInterface {
         //
         // ****  Please write code here... ***
         //
-        return suffixArray.length; // This line should be modified.
+
+
+        int min = -1;
+        int max = mySpace.length;
+
+        while(max - min > 1) {
+            int mid = (max + min) / 2;
+            int compare = targetCompare(mid,start,end);
+            if(compare >= 0) max = mid;
+            else min = mid;
+        }
+
+        return max; // This line should be modified.
     }
 
     private int subByteEndIndex(int start, int end) {
@@ -143,7 +168,17 @@ public class Frequencer implements FrequencerInterface {
         //
         // ****  Please write code here... ***
         //
-        return suffixArray.length; // This line should be modified.
+
+        int min = -1;
+        int max = mySpace.length;
+
+        while(max - min > 1) {
+            int mid = (max + min) / 2;
+            int compare = targetCompare(mid,start,end);
+            if(compare <= 0) min = mid;
+            else max = mid;
+        }
+        return max; // This line should be modified.
     }
 
     public int subByteFrequency(int start, int end) {
