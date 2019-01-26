@@ -31,6 +31,7 @@ public interface InformationEstimatorInterface{
 
 public class TestCase {
     public static void main(String[] args) {
+	System.out.print("\n");
 	try {
 	    FrequencerInterface  myObject;
 	    int freq;
@@ -46,21 +47,81 @@ public class TestCase {
 	    System.out.println("Exception occurred: STOP");
 	}
 
+	System.out.print("\n");
+	/* Target don't set */
+	try {
+	    FrequencerInterface  myObject;
+	    int freq;
+	    System.out.println("checking s4.B183315.Frequencer");
+	    myObject = new s4.B183315.Frequencer();
+	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
+	    //myObject.setTarget("H".getBytes());
+	    freq = myObject.frequency();
+	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+	    if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	}
+	catch(Exception e) {
+	    System.out.println("Exception occurred: STOP");
+	}
+
+	System.out.print("\n");
+	//Target の 長さがゼロ
+	try {
+	    FrequencerInterface  myObject;
+	    int freq;
+	    System.out.println("checking s4.B183315.Frequencer");
+	    myObject = new s4.B183315.Frequencer();
+	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
+	    myObject.setTarget("".getBytes());
+	    freq = myObject.frequency();
+	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+	    if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	}
+	catch(Exception e) {
+	    System.out.println("Exception occurred: STOP");
+	}
+    
+    	
+   
+	System.out.print("\n");
+        // Target has more than two letters  and  Space last letter is Target first letter	
+	try {
+	    FrequencerInterface  myObject;
+	    int freq;
+	    System.out.println("checking s4.B183315.Frequencer");
+	    myObject = new s4.B183315.Frequencer();
+	    myObject.setSpace("Hi Ho Hi HoH".getBytes());
+	    myObject.setTarget("Hi".getBytes());
+	    freq = myObject.frequency();
+	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+	}
+	catch(Exception e) {
+	    System.out.println("Exception occurred: STOP");
+	    e.printStackTrace();
+	    System.out.println(e);
+	}
+
+    	
+	System.out.print("\n");
 	try {
 	    InformationEstimatorInterface myObject;
 	    double value;
 	    System.out.println("checking s4.B183315.InformationEstimator");
 	    myObject = new s4.B183315.InformationEstimator();
 	    myObject.setSpace("3210321001230123".getBytes());
+	    
 	    myObject.setTarget("0".getBytes());
 	    value = myObject.estimation();
 	    System.out.println(">0 "+value);
+	    
 	    myObject.setTarget("01".getBytes());
 	    value = myObject.estimation();
 	    System.out.println(">01 "+value);
+	    
 	    myObject.setTarget("0123".getBytes());
 	    value = myObject.estimation();
 	    System.out.println(">0123 "+value);
+	    
 	    myObject.setTarget("00".getBytes());
 	    value = myObject.estimation();
 	    System.out.println(">00 "+value);
@@ -68,6 +129,9 @@ public class TestCase {
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
 	}
+   	
+ 
+    	
 
     }
 }	    
