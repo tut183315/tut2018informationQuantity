@@ -121,14 +121,15 @@ public class Frequencer implements FrequencerInterface {
         //
         // ****  Please write code here... ***
         //
+        var n = suffixArray[i];
         while (j < end) {
-            if(mySpace.length <= i){
+            if(mySpace.length <= n){
                 return -1;
             }
-            var x = mySpace[suffixArray[i]];
+            var x = mySpace[n];
             var y = myTarget[j];
             if(x == y){
-                i++;
+                n++;
                 j++;
                 continue;
             }
@@ -228,18 +229,27 @@ public class Frequencer implements FrequencerInterface {
 	       A:o Hi Ho
 	    */
 
-            frequencerObject.setTarget("H".getBytes());
-            //
-            // ****  Please write code to check subByteStartIndex, and subByteEndIndex
-            //
+            FrequenceChecker(frequencerObject,"H",4);
+            FrequenceChecker(frequencerObject,"Hi",2);
+            FrequenceChecker(frequencerObject,"Hi ",2);
+            FrequenceChecker(frequencerObject,"Hi Ho Hi Ho",1);
 
-            int result = frequencerObject.frequency();
-            System.out.print("Freq = "+ result+" ");
-            if(4 == result) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         }
         catch(Exception e) {
             System.out.println("STOP");
         }
+    }
+
+    private static void FrequenceChecker(Frequencer frequencerObject,String str,int expected) {
+        int result;
+        frequencerObject.setTarget(str.getBytes());
+        //
+        // ****  Please write code to check subByteStartIndex, and subByteEndIndex
+        //
+
+        result = frequencerObject.frequency();
+        System.out.print("Freq = "+ result+" ");
+        if(expected == result) { System.out.println("OK"); } else {System.out.println("WRONG"); }
     }
 }	    
 	    
