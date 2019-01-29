@@ -90,12 +90,13 @@ public class InformationEstimator implements InformationEstimatorInterface {
         for (int i = 0; i < myTarget.length; i++){
             var min = Double.POSITIVE_INFINITY;
             for (int j = 0; j < i; j++) {
-                int freq = myFrequencer.subByteFrequency(j, i + 1);
+                int freq = myFrequencer.subByteFrequency(j + 1, i + 1);
                 var sb = iq (freq) + cash[j];
                 min = Math.min(min,sb);
             }
             int freq = myFrequencer.subByteFrequency(0, i + 1);
-            cash[i] = Math.min(min, iq(freq));
+            var iqn = iq(freq);
+            cash[i] = Math.min(min, iqn);
 
 
         }

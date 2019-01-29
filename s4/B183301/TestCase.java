@@ -51,6 +51,7 @@ public class TestCase {
         }
         {
             System.out.println("checking s4.B183301.InformationEstimator");
+            InformationEstimatorTest("HiaHic","Hi");
             InformationEstimatorTest("3210321001230123", "0",2d);
             InformationEstimatorTest("3210321001230123", "1",2d);
             InformationEstimatorTest("3210321001230123", "01",4d);
