@@ -104,7 +104,6 @@ public class InformationEstimator implements InformationEstimatorInterface {
         return Double.isInfinite(value) ? Double.MAX_VALUE : value;
     }
 
-				  
     public static void main(String[] args) {
 	InformationEstimator myObject;
 	double value;
@@ -122,7 +121,10 @@ public class InformationEstimator implements InformationEstimatorInterface {
 	myObject.setTarget("00".getBytes());
 	value = myObject.estimation();
 	System.out.println(">00 "+value);
-    }			       
+    }
 }
+				  
+			       
+
 	
     

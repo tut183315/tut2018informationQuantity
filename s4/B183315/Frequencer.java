@@ -206,7 +206,6 @@ public class Frequencer implements FrequencerInterface{
 	}
 
 	
-	System.out.println("not found");
 	return suffixArray.length; // This line should be modified.
 	
     }
