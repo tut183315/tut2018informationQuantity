@@ -112,14 +112,14 @@ public class Frequencer implements FrequencerInterface{
 	// It should be used to search the apropriate index of some suffix.
 	// Example of search
 	// suffix          target
-        // "o"       >     "i"
-        // "o"       <     "z"
+    // "o"       >     "i"
+    // "o"       <     "z"
 	// "o"       =     "o"
-        // "o"       <     "oo"
+    // "o"       <     "oo"
 	// "Ho"      >     "Hi"
 	// "Ho"      <     "Hz"
 	// "Ho"      =     "Ho"
-        // "Ho"      <     "Ho "   : "Ho " is not in the head of suffix "Ho"
+    // "Ho"      <     "Ho "   : "Ho " is not in the head of suffix "Ho"
 	// "Ho"      =     "H"     : "H" is in the head of suffix "Ho"
 	//
 	// ****  Please write code here... ***
@@ -127,6 +127,7 @@ public class Frequencer implements FrequencerInterface{
 	
 	
     int i_length = mySpace.length - suffixArray[i];
+    //System.out.println("i_length  ="+i_length+"");
     int j_length = end - j;
     int tmp = end-j;
     int k;
@@ -150,35 +151,6 @@ public class Frequencer implements FrequencerInterface{
 	return -1;
     }
     
-    	
- 
-
-	
-	/*	
-    int s = suffixArray[i];
-    if(mySpace[s] < myTarget[j]){
-        return -1;
-    }
-    if(mySpace[s] > myTarget[j]){
-        return 1;
-    }
-    if((mySpace.length - s) < (end - j)){
-        return -1;
-    }
-    if(mySpace[i] == myTarget[0] && (end - j == 1)){
-        return 0;
-    }
-    for(int k = 0; k < end - j; k++){
-        System.out.println("count");
-        if(mySpace[s + k] > myTarget[j + k]){
-            return 1;
-        }
-        if(mySpace[s + k] < myTarget[j + k]){
-            return -1;
-        }
-    }
-	return 0; // This line should be modified.
-	*/
 }
     
     
@@ -192,22 +164,68 @@ public class Frequencer implements FrequencerInterface{
 	// ****  Please write code here... ***
 	//
 
-	/*	
-    for(int i = start; i < end; i++){
-        if(0 == targetCompare(i, 0, myTarget.length)){
-            return i;
-        }
-    }
-	*/
-	
+	/*
+      //MY_program
 	for(int k=0; k<mySpace.length; k++){
 	    if(0 == targetCompare(k, start, end))
 		return k;
 	}
+    */
+    
+    	int pLeft = 0;
+		int pRight = mySpace.length - 1;
+    	//int L_flag = 0;
+    	//int R_flag = 0;
+    	int flag = 0;
 
-	
-	return suffixArray.length; // This line should be modified.
-	
+		do {
+			int center = (pLeft + pRight) / 2;
+			
+			if (0 == targetCompare(center, start, end)) {
+				pRight = center - 1;
+				flag = 1; 
+				//System.out.println("Rigth ="+pRight+"");
+			} else if (-1 == targetCompare(center, start, end)){
+				pLeft = center + 1; 
+				//System.out.println("Left  ="+pLeft+"");
+			} else {
+				pRight = center - 1;
+				//System.out.println("Rigth ="+pRight+"");
+			}
+		} while (pLeft < pRight);
+		
+    	//System.out.println("\n");
+    	/*
+    	System.out.println("\n");
+    	System.out.println("L_flag  ="+L_flag+"");
+    	System.out.println("R_flag  ="+R_flag+"");
+		System.out.println("\n");
+    	*/
+    	
+    	if( flag == 1 ){ 
+    		if( 0 == targetCompare(pLeft, start, end) ){
+    			return pLeft;
+    		} else {
+    			return pLeft+1;
+    		}
+    	}
+    	if( flag == 0 ){ 
+    		//System.out.println("pLeft ="+pLeft+"");
+    		//System.out.println("start ="+start+"");
+    		//System.out.println("end   ="+end+"");
+    		if( 0 == targetCompare(pLeft, start, end) ){
+    			return pLeft;
+    		} else if( pLeft >= mySpace.length-1 ) {
+    			return suffixArray.length;
+    		} else if(0 == targetCompare(pLeft+1, start, end)){
+    			return pLeft+1;
+    		} else {
+    			return suffixArray.length;
+    		}
+    	}
+    	
+		return suffixArray.length; // This line should be modified.
+    	
     }
 
     private int subByteEndIndex(int start, int end) {
@@ -218,13 +236,61 @@ public class Frequencer implements FrequencerInterface{
 	//
 	// ****  Please write code here... ***
 	//
-
+    /*
+	 //MY_program
 	for(int k=0; k<mySpace.length; k++){
 	    if(1 == targetCompare(k, start, end))
 		return k;
 	}
+    */
+    	int pLeft = 0;
+		int pRight = mySpace.length - 1;
+    	int flag = 0;
 
-	return suffixArray.length; // This line should be modified.
+		do {
+			int center = (pLeft + pRight) / 2;
+			
+			if (1 == targetCompare(center, start, end)) { 
+				pRight = center - 1;
+				//System.out.println("Rigth ="+pRight+"");
+			} else if (-1 == targetCompare(center, start, end)){
+				pLeft = center + 1;
+				//System.out.println("Left ="+pLeft+"");
+			} else { 
+				pLeft = center + 1;
+				flag = 1;
+				//System.out.println("Left ="+pLeft+"");
+			}
+		} while (pLeft < pRight);
+    	/*
+    	System.out.println("\n");
+    	System.out.println("Left  ="+pLeft+"");
+    	System.out.println("Rigth ="+pRight+"");
+    	System.out.println("FRAG ="+flag+"");
+		System.out.println("\n");
+    	*/
+    	
+    	if( flag == 1 ){ 
+    		if( 1 == targetCompare(pLeft, start, end) ){
+    			return pLeft;
+    		} else {
+    			return pLeft+1;
+    		}
+    	}
+    	
+    	if( flag == 0 ){ 
+    		if( 0 == targetCompare(pLeft, start, end) ){
+    			return pLeft+1;
+    		} else if( pLeft >= 0 ){
+    			return suffixArray.length;
+    		} else if(0 == targetCompare(pLeft-1, start, end)){
+    			return pLeft;
+    		} else {
+    			return suffixArray.length;
+    		}
+    	}
+    	
+		return suffixArray.length; // This line should be modified.
     }
 
     public int subByteFrequency(int start, int end) {
@@ -274,15 +340,15 @@ public class Frequencer implements FrequencerInterface{
 	       A:o Hi Ho
 	    */
 
-	    frequencerObject.setTarget("Ho ".getBytes());
+	    frequencerObject.setTarget("D".getBytes());
 	    //
 	    // ****  Please write code to check subByteStartIndex, and subByteEndIndex
 	    //
 
 	    //System.out.println(frequencerObject.subByteStartIndex(0,frequencerObject.mySpace.length));
-	    System.out.println(frequencerObject.subByteStartIndex(0, 3));
-	    //System.out.println(frequencerObject.subByteEndIndex(0, 2));
-	    
+	    //System.out.println(frequencerObject.subByteStartIndex(0, 1));
+	    System.out.println(frequencerObject.subByteEndIndex(0, 6));
+	    //System.out.println(frequencerObject.suffixArray.length);
 	    System.out.println("\n");
 
 	    int result = frequencerObject.frequency();
@@ -291,6 +357,7 @@ public class Frequencer implements FrequencerInterface{
 	}
 	catch(Exception e) {
 	    System.out.println("STOP");
+		e.printStackTrace();
 	}
     }
 }
